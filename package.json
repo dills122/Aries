@@ -1,0 +1,25 @@
+{
+  "name": "what-a-square",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dills122/what-a-square.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dills122/what-a-square/issues"
+  },
+  "homepage": "https://github.com/dills122/what-a-square#readme",
+  "dependencies": {
+    "@hapi/joi": "^17.1.0",
+    "async": "^3.1.0",
+    "lodash": "^4.17.15"
+  }
+}
