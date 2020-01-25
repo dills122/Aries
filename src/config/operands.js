@@ -1,4 +1,4 @@
-module.eports = {
+module.exports = {
     whitelist: [
         '>',
         '<',

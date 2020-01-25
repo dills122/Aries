@@ -1,15 +1,65 @@
 const joi = require("@hapi/joi");
+const {
+  operands: { whitelist }
+} = require("../config");
 
-module.exports = joi.object().keys({
-    ruleName: joi.string().min(1).required(),
-    dataType: joi.string().min(1).required(),
-    dataItemPath: joi.string().min(1).required(),
-    isActive: joi.boolean().required(),
-    isWarning: joi.boolean().default(false),
-    description: joi.string().optional(),
-    lowerBound: joi.number().optional(),
-    upperBound: joi.number().optional(),
-    baseline: joi.number().optional(),
-    tolerance: joi.number().optional(),
-    description: joi.string().optional()
+const constRules = {
+  ruleName: joi.string().required(),
+  dataType: joi.string().required(),
+  description: joi.string().optional(),
+  isActive: joi.boolean().required(),
+  isWarning: joi.boolean().default(false),
+  operand: joi
+    .string()
+    // .valid(...whitelist)
+    .required()
+};
+
+const compareTwo = joi.object().keys({
+  dataItemPath: joi.string().required(),
+  dataItemTwoPath: joi.string().required(),
+  ...constRules
 });
+
+const compareBounds = joi.object().keys({
+  dataItemPath: joi.string().required(),
+  lowerBound: joi
+    .number()
+    .min(0)
+    .required(),
+  upperBound: joi
+    .number()
+    .min(0)
+    .required(),
+  ...constRules
+});
+
+const compareBaselineTolerance = joi.object().keys({
+  dataItemPath: joi.string().required(),
+  baseline: joi.number().required(),
+  tolerance: joi
+    .number()
+    .min(1)
+    .max(99)
+    .required(),
+  ...constRules
+});
+
+const compareBaseline = joi.object().keys({
+  dataItemPath: joi.string().required(),
+  baseline: joi.number().required(),
+  ...constRules
+});
+
+module.exports = {
+  schemas: [
+    compareBaseline,
+    compareBaselineTolerance,
+    compareBounds,
+    compareTwo
+  ],
+  compareBaseline,
+  compareBaselineTolerance,
+  compareBounds,
+  compareTwo
+};

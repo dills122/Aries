@@ -1,6 +1,6 @@
 const lib = require("./src");
 
-module.eports = {
+module.exports = {
     lib: lib,
     ...lib
 
