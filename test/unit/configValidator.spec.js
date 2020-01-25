@@ -1,7 +1,7 @@
 const mocha = require("mocha");
 const { assert } = require("chai");
 const _ = require("lodash");
-const ConfigValidator = require("../../src/configValidator");
+const { ConfigValidator } = require("../../src/configValidator");
 const {
   configs: { basic, multi, erroneousMulti }
 } = require("../mocks/");

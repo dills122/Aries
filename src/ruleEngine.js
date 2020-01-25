@@ -2,19 +2,26 @@ const joi = require("@hapi/joi");
 const _ = require("lodash");
 
 const dependencies = {
-  ConfigValidator: require("./configValidator")
+  ConfigValidator: require("./configValidator").ConfigValidator
 };
 
 const schema = joi.object().keys({
   config: joi.object().required()
 });
-
+/**
+ * @class Rule Engine Validator
+ */
 class RuleEngine {
   constructor(args = {}) {
     let validatedArgs = joi.attempt(args, schema);
     _.assign(this, validatedArgs);
   }
-
+  /**
+   * process and validate object against defined rule set
+   * @param {object} toValidateObj
+   * @param {object} config
+   * @returns {Array<Object>}
+   */
   process(toValidateObj = {}, config = {}) {
     if (_.keys(toValidateObj).length === 0) {
       throw new ReferenceError("toalidateObj is a required argument");

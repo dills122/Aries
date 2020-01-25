@@ -5,8 +5,11 @@ const _ = require("lodash");
 const schema = joi.object().keys({
   config: joi.object().required()
 });
-
-module.exports = class ConfigValidator {
+/**
+ * @class Rule config validator
+ * used to validate rule definition configs
+ */
+class ConfigValidator {
   constructor(args = {}) {
     let validatedSchema = joi.attempt(args, schema);
     _.assign(this, validatedSchema);
@@ -42,4 +45,8 @@ module.exports = class ConfigValidator {
 
     return collection;
   }
+}
+
+module.exports = {
+  ConfigValidator
 };
