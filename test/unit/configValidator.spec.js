@@ -41,7 +41,6 @@ describe("Unit::", () => {
       let validator = new ConfigValidator({
         config: multi
       });
-      console.log(validator.config);
       let [validatedConfig, validatedConfigTwo] = validator.validateConfig();
       let [ruleOne, ruleTwo] = _.values(multi);
 

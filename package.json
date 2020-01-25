@@ -1,6 +1,6 @@
 {
   "name": "what-a-square",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,8 @@
     "url": "git+https://github.com/dills122/what-a-square.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Dylan Steele",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dills122/what-a-square/issues"
   },
