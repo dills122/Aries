@@ -1,16 +1,14 @@
 const mocha = require("mocha");
-const { assert, expect } = require("chai");
-const sinon = require("sinon");
+const { assert } = require("chai");
 const _ = require("lodash");
 const ConfigValidator = require("../../src/configValidator");
-const { basic, multi, erroneousMulti } = require("../mocks/");
+const {
+  configs: { basic, multi, erroneousMulti }
+} = require("../mocks/");
 
 describe("Unit::", () => {
   describe("ConfigValidator::", () => {
-    let sandbox;
-    beforeEach(() => {
-      sinon.createSandbox();
-    });
+    beforeEach(() => {});
 
     afterEach(() => {});
 
@@ -44,7 +42,6 @@ describe("Unit::", () => {
       let [validatedConfig, validatedConfigTwo] = validator.validateConfig();
       let [ruleOne, ruleTwo] = _.values(multi);
 
-
       assert.notEqual(validatedConfig.isWarning, ruleOne);
       assert.notDeepEqual(
         validatedConfig,
@@ -58,8 +55,16 @@ describe("Unit::", () => {
       );
       delete validatedConfig.isWarning;
       delete validatedConfigTwo.isWarning;
-      assert.deepEqual(validatedConfig, ruleOne, "Should return updated config");
-      assert.deepEqual(validatedConfigTwo, ruleTwo, "Should return updated config");
+      assert.deepEqual(
+        validatedConfig,
+        ruleOne,
+        "Should return updated config"
+      );
+      assert.deepEqual(
+        validatedConfigTwo,
+        ruleTwo,
+        "Should return updated config"
+      );
       assert.deepEqual(
         _.values(validator.config)[0],
         validatedConfig,
@@ -72,9 +77,17 @@ describe("Unit::", () => {
       let validator = new ConfigValidator({
         config: basic
       });
-      assert.deepEqual(validator.config, basic, "Instance config should equal same config passed in");
+      assert.deepEqual(
+        validator.config,
+        basic,
+        "Instance config should equal same config passed in"
+      );
       let [validatedConfig] = validator.validateConfig(multi);
-      assert.deepEqual(validator.config, multi, "config should be updated to multi now");
+      assert.deepEqual(
+        validator.config,
+        multi,
+        "config should be updated to multi now"
+      );
       return done();
     });
 

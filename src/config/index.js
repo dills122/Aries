@@ -1,3 +1,3 @@
 module.exports = {
-    operands: require("./operands")   
+  operands: require("./operands")
 };
