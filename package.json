@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha \"./test/**/*.spec.js\""
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,10 @@
     "@hapi/joi": "^17.1.0",
     "async": "^3.1.0",
     "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.0.0",
+    "sinon": "^8.1.1"
   }
 }
