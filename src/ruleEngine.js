@@ -43,13 +43,16 @@ class RuleEngine {
         dataItemTwoPath,
         isActive,
         baseline,
-        tolerance
+        tolerance,
+        upperBound,
+        lowerBound
       } = rule;
 
       let dataItemOne = _.get(toValidateObj, dataItemPath);
       let dataItemTwo = _.get(toValidateObj, dataItemTwoPath);
 
       if (isActive) {
+        //CompareTwo Schema in Rule Item
         if (dataItemOne && dataItemTwo) {
           results.push({
             isSuccessful: _prv.processComparisons(
@@ -61,12 +64,38 @@ class RuleEngine {
           });
           continue;
         }
-
+        //CompareBounds Schema in Rule Item
+        if (upperBound && lowerBound) {
+          results.push({
+            isSuccessful: _prv.processBoundedCheck(
+              operand,
+              lowerBound,
+              upperBound,
+              dataItemOne
+            ),
+            ...rule
+          });
+          continue;
+        }
+        //CompareBaseline Schema in Rule Item
         if (!tolerance && dataItemOne && baseline) {
           results.push({
             isSuccessful: _prv.processBaselineCheck(
               operand,
               baseline,
+              dataItemOne
+            ),
+            ...rule
+          });
+          continue;
+        }
+        //CompareToleranceBaseline Schema in Rule Item
+        if (tolerance && dataItemOne && baseline) {
+          results.push({
+            isSuccessful: _prv.processBaselineToleranceCheck(
+              operand,
+              baseline,
+              tolerance,
               dataItemOne
             ),
             ...rule
@@ -118,6 +147,19 @@ const _prv = {
     }
 
     return isValid;
+  },
+  processBoundedCheck: (operand, lowerBound, upperBound, value) => {
+    operand = operand.includes("=") ? "<=" : "<";
+    return (
+      _prv.processComparisons(operand, lowerBound, value) &&
+      _prv.processComparisons(operand, value, upperBound)
+    );
+  },
+  processBaselineToleranceCheck: (operand, baseline, tolerance, value) => {
+    let toleranceVal = _.multiply(baseline, _.divide(tolerance, 100));
+    let lower = baseline - toleranceVal;
+    let upper = baseline + toleranceVal;
+    return _prv.processBoundedCheck(operand, lower, upper, value);
   }
 };
 

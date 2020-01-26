@@ -12,5 +12,9 @@ module.exports = {
   missingParam: {
     a: "test",
     c: 98
+  },
+  bounded: {
+    d: 100,
+    e: 200
   }
 };
