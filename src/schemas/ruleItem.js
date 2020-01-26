@@ -8,16 +8,16 @@ const constRules = {
   dataType: joi.string().required(),
   description: joi.string().optional(),
   isActive: joi.boolean().required(),
-  isWarning: joi.boolean().default(false),
-  operand: joi
-    .string()
-    // .valid(...whitelist)
-    .required()
+  isWarning: joi.boolean().default(false)
 };
 
 const compareTwo = joi.object().keys({
   dataItemPath: joi.string().required(),
   dataItemTwoPath: joi.string().required(),
+  operand: joi
+    .string()
+    .valid(...whitelist)
+    .required(),
   ...constRules
 });
 
@@ -31,6 +31,10 @@ const compareBounds = joi.object().keys({
     .number()
     .min(0)
     .required(),
+  operand: joi
+    .string()
+    .valid(">=", "<=", "<", ">")
+    .required(),
   ...constRules
 });
 
@@ -42,12 +46,20 @@ const compareBaselineTolerance = joi.object().keys({
     .min(1)
     .max(99)
     .required(),
+    operand: joi
+    .string()
+    .valid(">=", "<=", "<", ">")
+    .required(),
   ...constRules
 });
 
 const compareBaseline = joi.object().keys({
   dataItemPath: joi.string().required(),
   baseline: joi.number().required(),
+  operand: joi
+  .string()
+  .valid(...whitelist)
+  .required(),
   ...constRules
 });
 
