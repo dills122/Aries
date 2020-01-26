@@ -4,9 +4,15 @@ const sinon = require("sinon");
 const _ = require("lodash");
 const { RuleEngine, _prv } = require("../../src/ruleEngine");
 const {
-  configs: { basic, multi, erroneousMulti },
+  configs: {
+    basic,
+    multi,
+    erroneousMulti,
+    bounded: boundedConfig,
+    baselineTolerance
+  },
   unvalidatedObjects: {
-    basic: { valid, invalid, missingParam }
+    basic: { valid, invalid, missingParam, bounded }
   }
 } = require("../mocks/");
 
@@ -37,6 +43,12 @@ describe("Unit::", () => {
       });
       let err = () => engine.process(valid);
       assert.throws(err);
+
+      let engineTwo = new RuleEngine({
+        config: erroneousMulti
+      });
+      let errTwo = () => engineTwo.process(valid);
+      assert.throws(errTwo);
       return done();
     });
 
@@ -100,6 +112,44 @@ describe("Unit::", () => {
       assert.isFalse(_.every(result, "isSuccessful"));
       assert.isObject(_.find(result, { isSuccessful: false }));
       assert.isTrue(spies.processComparisonsStub.calledOnce);
+      return done();
+    });
+
+    it("Should process a bounded rule", done => {
+      let engine = new RuleEngine({
+        config: boundedConfig
+      });
+      assert.deepEqual(engine.config, boundedConfig);
+      let results = engine.process(bounded);
+      assert.equal(results.length, 2);
+      assert.isTrue(_.every(results, "isSuccessful"));
+      return done();
+    });
+
+    it("Should process a baseline tolerance rule type and fail", done => {
+      let engine = new RuleEngine({
+        config: baselineTolerance
+      });
+      assert.deepEqual(engine.config, baselineTolerance);
+      let results = engine.process(bounded);
+      assert.equal(results.length, 2);
+      assert.isFalse(_.every(results, "isSuccessful"));
+      assert(_.find(results, { isSuccessful: false }));
+      assert(_.find(results, { isSuccessful: true }));
+      return done();
+    });
+    
+    it("Should process a baseline tolerance rule type", done => {
+      let engine = new RuleEngine({
+        config: baselineTolerance
+      });
+      let boundedClone = _.clone(bounded);
+      boundedClone.d = 90;
+      assert.deepEqual(engine.config, baselineTolerance);
+      let results = engine.process(boundedClone);
+      assert.equal(results.length, 2);
+      assert.isTrue(_.every(results, "isSuccessful"));
+      assert(_.find(results, { isSuccessful: true }));
       return done();
     });
   });
