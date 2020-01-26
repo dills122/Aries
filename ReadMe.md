@@ -1,4 +1,4 @@
-# What A Square
+# Aries
 
 [![Build Status](https://travis-ci.com/dills122/what-a-square.svg?token=mGFt9GyKoDzMhi9Zvco9&branch=master)](https://travis-ci.com/dills122/what-a-square)
 
