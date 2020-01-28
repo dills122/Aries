@@ -159,7 +159,10 @@ const _prv = {
     let toleranceVal = _.multiply(baseline, _.divide(tolerance, 100));
     let lower = baseline - toleranceVal;
     let upper = baseline + toleranceVal;
-    return _prv.processBoundedCheck(operand, lower, upper, value);
+    return (
+      _prv.processComparisons(operand, value, lower) ||
+      _prv.processComparisons(operand, value, upper)
+    );
   }
 };
 

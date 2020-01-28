@@ -131,7 +131,9 @@ describe("Unit::", () => {
         config: baselineTolerance
       });
       assert.deepEqual(engine.config, baselineTolerance);
-      let results = engine.process(bounded);
+      let boundedClone = _.clone(bounded);
+      boundedClone.e = 175;
+      let results = engine.process(boundedClone);
       assert.equal(results.length, 2);
       assert.isFalse(_.every(results, "isSuccessful"));
       assert(_.find(results, { isSuccessful: false }));
