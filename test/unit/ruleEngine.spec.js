@@ -9,7 +9,8 @@ const {
     multi,
     erroneousMulti,
     bounded: boundedConfig,
-    baselineTolerance
+    baselineTolerance,
+    dependentRule
   },
   unvalidatedObjects: {
     basic: { valid, invalid, missingParam, bounded }
@@ -140,7 +141,7 @@ describe("Unit::", () => {
       assert(_.find(results, { isSuccessful: true }));
       return done();
     });
-    
+
     it("Should process a baseline tolerance rule type", done => {
       let engine = new RuleEngine({
         config: baselineTolerance
@@ -152,6 +153,32 @@ describe("Unit::", () => {
       assert.equal(results.length, 2);
       assert.isTrue(_.every(results, "isSuccessful"));
       assert(_.find(results, { isSuccessful: true }));
+      return done();
+    });
+
+    it("Should test a dpendent rule", done => {
+      let engine = new RuleEngine({
+        config: dependentRule
+      });
+      let results = engine.process(valid, dependentRule);
+      assert.equal(results.length, 3);
+      assert.isTrue(_.every(results, "isSuccessful"));
+      assert(_.find(results, { isSuccessful: true }));
+      assert(_.find(results, result => result.ruleNames));
+      return done();
+    });
+
+    it("Should test a dpendent rule and fail", done => {
+      let engine = new RuleEngine({
+        config: dependentRule
+      });
+      let invalidValid = _.clone(valid);
+      invalidValid.b = 'not test';
+      let results = engine.process(invalidValid, dependentRule);
+      assert.equal(results.length, 3);
+      assert.isFalse(_.every(results, "isSuccessful"));
+      assert(_.find(results, { isSuccessful: false }));
+      assert(_.find(results, result => result.ruleNames));
       return done();
     });
   });

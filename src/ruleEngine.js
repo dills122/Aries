@@ -1,5 +1,6 @@
 const joi = require("@hapi/joi");
 const _ = require("lodash");
+const hashMap = require("hashmap");
 
 const dependencies = {
   ConfigValidator: require("./configValidator").ConfigValidator
@@ -15,6 +16,7 @@ class RuleEngine {
   constructor(args = {}) {
     let validatedArgs = joi.attempt(args, schema);
     _.assign(this, validatedArgs);
+    this.ruleMap = new hashMap();
   }
   /**
    * process and validate object against defined rule set
@@ -35,9 +37,16 @@ class RuleEngine {
       config: this.config
     });
     let rules = validator.validateConfig();
-    let results = []; //results of the rules processing
-    for (let rule of rules) {
+    let nonDependent = _.filter(
+      rules,
+      rule => rule.ruleName && !rule.ruleNames
+    );
+    let dependent = _.filter(rules, rule => rule.ruleName && rule.ruleNames);
+
+    for (let rule of nonDependent) {
+      console.log(rule);
       let {
+        ruleName,
         operand,
         dataItemPath,
         dataItemTwoPath,
@@ -54,7 +63,7 @@ class RuleEngine {
       if (isActive) {
         //CompareTwo Schema in Rule Item
         if (dataItemOne && dataItemTwo) {
-          results.push({
+          this.ruleMap.set(ruleName, {
             isSuccessful: _prv.processComparisons(
               operand,
               dataItemOne,
@@ -66,7 +75,7 @@ class RuleEngine {
         }
         //CompareBounds Schema in Rule Item
         if (upperBound && lowerBound) {
-          results.push({
+          this.ruleMap.set(ruleName, {
             isSuccessful: _prv.processBoundedCheck(
               operand,
               lowerBound,
@@ -79,7 +88,7 @@ class RuleEngine {
         }
         //CompareBaseline Schema in Rule Item
         if (!tolerance && dataItemOne && baseline) {
-          results.push({
+          this.ruleMap.set(ruleName, {
             isSuccessful: _prv.processBaselineCheck(
               operand,
               baseline,
@@ -91,7 +100,7 @@ class RuleEngine {
         }
         //CompareToleranceBaseline Schema in Rule Item
         if (tolerance && dataItemOne && baseline) {
-          results.push({
+          this.ruleMap.set(ruleName, {
             isSuccessful: _prv.processBaselineToleranceCheck(
               operand,
               baseline,
@@ -103,14 +112,59 @@ class RuleEngine {
           continue;
         }
 
-        results.push({
+        this.ruleMap.set(ruleName, {
           isSuccessful: false,
           error: new Error("Not found"),
           ...rule
         }); //push a not found rule error to the results arroy
       }
     }
-    return results;
+    if (dependent.length > 0) {
+      this.processDependentRules(dependent);
+    }
+
+    return this.ruleMap.values();
+  }
+
+  processDependentRules(rules) {
+    rules.forEach(rule => {
+      let { ruleName, ruleNames, operand } = rule;
+      console.log(operand);
+      switch (operand) {
+        case "&&":
+          this.ruleMap.set(ruleName, {
+            isSuccessful: ruleNames.every((ruleNameStr, index, arry) => {
+              if (index === 0) {
+                return true && this.ruleMap.get(ruleNameStr).isSuccessful;
+              }
+              let previous = arry[index - 1];
+              return (
+                this.ruleMap.get(previous).isSuccessful &&
+                this.ruleMap.get(ruleNameStr).isSuccessful
+              );
+            }),
+            ...rule
+          });
+          break;
+        case "||":
+          this.ruleMap.set(ruleName, {
+            isSuccessful: ruleNames.some((ruleNameStr, index, arry) => {
+              if (index === 0) {
+                return true && this.ruleMap.get(ruleNameStr).isSuccessful;
+              }
+              let previous = arry[index - 1];
+              return (
+                this.ruleMap.get(previous).isSuccessful &&
+                this.ruleMap.get(ruleNameStr).isSuccessful
+              );
+            }),
+            ...rule
+          });
+          break;
+        default:
+          throw new TypeError("Not supported operand");
+      }
+    });
   }
 }
 
