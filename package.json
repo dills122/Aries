@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dills122/what-a-square.git"
+    "url": "git+https://github.com/dills122/Aries.git"
   },
   "keywords": [],
   "author": "Dylan Steele",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dills122/what-a-square/issues"
+    "url": "https://github.com/dills122/Aries/issues"
   },
-  "homepage": "https://github.com/dills122/what-a-square#readme",
+  "homepage": "https://github.com/dills122/Aries#readme",
   "dependencies": {
     "@hapi/joi": "^17.1.0",
     "async": "^3.1.0",
