@@ -109,5 +109,5 @@ This repo is named after my dog who recently passed away. A dog who didn't liste
 RIP buddy 2008-2020
 
 <p align="center">
-  <img width="175" height="250" src="./Aries.JPG" alt="Logo Image">
+  <img width="330" height="440" src="./Aries.JPG" alt="Logo Image">
 </p>
