@@ -4,7 +4,8 @@ module.exports = {
     multi: require("./multiItemRuleConfig"),
     erroneousMulti: require("./erroneousRuleConfig"),
     bounded: require("./boundedRuleConfig"),
-    baselineTolerance: require("./baselineToleranceConfig")
+    baselineTolerance: require("./baselineToleranceConfig"),
+    dependentRule: require("./dependentRuleConfig")
   },
   unvalidatedObjects: {
     basic: require("./basicUnvalidatedObject")

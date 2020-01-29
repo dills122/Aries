@@ -7,7 +7,7 @@ const constRules = {
   ruleName: joi.string().required(),
   dataType: joi.string().required(),
   description: joi.string().optional(),
-  isActive: joi.boolean().required(),
+  isActive: joi.boolean().default(true),
   isWarning: joi.boolean().default(false)
 };
 
@@ -63,15 +63,27 @@ const compareBaseline = joi.object().keys({
   ...constRules
 });
 
+const dependentRule = joi.object().keys({
+  ruleName: joi.string().required(), 
+  operand: joi
+  .string()
+  .valid('&&','||')
+  .required(), 
+  ruleNames: joi.array().items(joi.string()).min(2).required(),
+  isActive: joi.boolean().default(true)
+});
+
 module.exports = {
   schemas: [
     compareBaseline,
     compareBaselineTolerance,
     compareBounds,
-    compareTwo
+    compareTwo,
+    dependentRule
   ],
   compareBaseline,
   compareBaselineTolerance,
   compareBounds,
-  compareTwo
+  compareTwo,
+  dependentRule
 };
