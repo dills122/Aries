@@ -9,6 +9,8 @@ Don't be hip be a square and make some rules now.
 
 ## Documentation
 
+Note - **You need use the defined ruleName as the key of your rule object inside the config**
+
 Possible comparisons method avaliable
 
 `CompareTwo(dataItemPath, dataItemTwoPath, operand)` - Compare two values aganist eachother.
@@ -82,5 +84,20 @@ Example
     baseline: 100,
     tolerance: 10, // will be 10%
     operand: '<=' // baseline - 10% <= dataItem <= baseline + 10% or 90 <= 200 || 110 <= 200
+}
+```
+
+### Dependent Rules
+
+If you need to compare some more complex information or just a larger number of data items you can chain existing rules together using dependent rules.
+
+Accepted `operators`- `&&` and `||`
+
+Example
+```javascript
+{
+ruleName: "Test Dependent Rule",
+operand: "&&", // || is the only other accepted operator,
+ruleNames: ["RuleOne","RuleTwo"]
 }
 ```
