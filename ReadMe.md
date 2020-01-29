@@ -101,3 +101,13 @@ operand: "&&", // || is the only other accepted operator,
 ruleNames: ["RuleOne","RuleTwo"]
 }
 ```
+
+#### Background
+
+This repo is named after my dog who recently passed away. A dog who didn't listen to shit or follow the rules and I name a rule validation, seems fitting to me.
+
+RIP buddy 2008-2020
+
+<p align="center">
+  <img width="175" height="250" src="./Aries.JPG" alt="Logo Image">
+</p>
