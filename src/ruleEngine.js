@@ -44,7 +44,6 @@ class RuleEngine {
     let dependent = _.filter(rules, rule => rule.ruleName && rule.ruleNames);
 
     for (let rule of nonDependent) {
-      console.log(rule);
       let {
         ruleName,
         operand,
@@ -123,13 +122,15 @@ class RuleEngine {
       this.processDependentRules(dependent);
     }
 
-    return this.ruleMap.values();
+    let values = this.ruleMap.values();
+    this.ruleMap.clear();
+
+    return values;
   }
 
   processDependentRules(rules) {
     rules.forEach(rule => {
       let { ruleName, ruleNames, operand } = rule;
-      console.log(operand);
       switch (operand) {
         case "&&":
           this.ruleMap.set(ruleName, {
