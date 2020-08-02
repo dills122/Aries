@@ -1,7 +1,7 @@
 {
-  "name": "aries",
-  "version": "0.0.9",
-  "description": "",
+  "name": "aries-js",
+  "version": "0.1.0",
+  "description": "basic rules engine ",
   "main": "index.js",
   "scripts": {
     "test": "mocha \"./test/**/*.spec.js\""
@@ -10,7 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/dills122/Aries.git"
   },
-  "keywords": [],
+  "keywords": [
+    "rules-engine",
+    "rules"
+  ],
   "author": "Dylan Steele",
   "license": "MIT",
   "bugs": {
