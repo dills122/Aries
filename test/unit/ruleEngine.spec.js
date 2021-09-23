@@ -1,5 +1,5 @@
-const mocha = require('mocha');
-const { assert, expect } = require('chai');
+const { describe, beforeEach, afterEach, it } = require('mocha');
+const { assert } = require('chai');
 const sinon = require('sinon');
 const _ = require('lodash');
 const { RuleEngine, _prv } = require('../../src/ruleEngine');

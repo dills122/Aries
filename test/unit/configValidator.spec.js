@@ -1,4 +1,4 @@
-const mocha = require('mocha');
+const { describe, beforeEach, afterEach, it } = require('mocha');
 const { assert } = require('chai');
 const _ = require('lodash');
 const { ConfigValidator } = require('../../src/configValidator');
@@ -8,9 +8,9 @@ const {
 
 describe('Unit::', () => {
   describe('ConfigValidator::', () => {
-    beforeEach(() => {});
+    beforeEach(() => { });
 
-    afterEach(() => {});
+    afterEach(() => { });
 
     it('Should successfully validate a basic config', (done) => {
       const validator = new ConfigValidator({
@@ -82,7 +82,7 @@ describe('Unit::', () => {
         basic,
         'Instance config should equal same config passed in',
       );
-      const [validatedConfig] = validator.validateConfig(multi);
+      validator.validateConfig(multi);
       assert.deepEqual(
         validator.config,
         multi,
