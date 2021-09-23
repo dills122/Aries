@@ -1,6 +1,6 @@
 # Aries
 
-[![Build Status](https://travis-ci.com/dills122/Aries.svg?token=mGFt9GyKoDzMhi9Zvco9&branch=master)](https://travis-ci.com/dills122/Aries)
+[![CI Job](https://github.com/dills122/Aries/actions/workflows/ci.action.yml/badge.svg)](https://github.com/dills122/Aries/actions/workflows/ci.action.yml)
 
 Rules suck unless when designing system because you remember that bug that was causing clients to get denied and cost you a week of sleep? Pepperidge Farm remembers.
 
