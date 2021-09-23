@@ -1,6 +1,6 @@
 {
   "name": "aries-js",
-  "version": "0.1.1",
+  "version": "0.1.2-0",
   "description": "basic rules engine",
   "main": "index.js",
   "scripts": {
