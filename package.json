@@ -4,10 +4,10 @@
   "description": "basic rules engine ",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
     "test": "mocha \"./test/**/*.spec.js\"",
-    "prettier": "prettier --write src/**/*.ts",
+    "prettier": "prettier --write src/**/*.js",
     "version": "auto-changelog -p && git add HISTORY.md",
     "prepare": "husky install"
   },
