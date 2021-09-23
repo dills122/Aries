@@ -1,10 +1,26 @@
 {
   "name": "aries-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "basic rules engine ",
   "main": "index.js",
   "scripts": {
-    "test": "mocha \"./test/**/*.spec.js\""
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "test": "mocha \"./test/**/*.spec.js\"",
+    "prettier": "prettier --write src/**/*.js",
+    "version": "auto-changelog -p && git add HISTORY.md",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --cache --fix",
+    "package.json": "prettier --write",
+    "*.md": "prettier --write"
+  },
+  "auto-changelog": {
+    "output": "HISTORY.md",
+    "template": "keepachangelog",
+    "unreleased": true,
+    "commitLimit": false
   },
   "repository": {
     "type": "git",
@@ -27,8 +43,15 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "auto-changelog": "^2.3.0",
     "chai": "^4.2.0",
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
     "mocha": "^7.0.0",
+    "prettier": "^2.3.2",
     "sinon": "^8.1.1"
   }
 }

@@ -1,14 +1,14 @@
-const joi = require("@hapi/joi");
+const joi = require('@hapi/joi');
 const {
-  operands: { whitelist }
-} = require("../config");
+  operands: { whitelist },
+} = require('../config');
 
 const constRules = {
   ruleName: joi.string().required(),
   dataType: joi.string().required(),
   description: joi.string().optional(),
   isActive: joi.boolean().default(true),
-  isWarning: joi.boolean().default(false)
+  isWarning: joi.boolean().default(false),
 };
 
 const compareTwo = joi.object().keys({
@@ -18,7 +18,7 @@ const compareTwo = joi.object().keys({
     .string()
     .valid(...whitelist)
     .required(),
-  ...constRules
+  ...constRules,
 });
 
 const compareBounds = joi.object().keys({
@@ -33,9 +33,9 @@ const compareBounds = joi.object().keys({
     .required(),
   operand: joi
     .string()
-    .valid(">=", "<=", "<", ">")
+    .valid('>=', '<=', '<', '>')
     .required(),
-  ...constRules
+  ...constRules,
 });
 
 const compareBaselineTolerance = joi.object().keys({
@@ -46,31 +46,31 @@ const compareBaselineTolerance = joi.object().keys({
     .min(1)
     .max(99)
     .required(),
-    operand: joi
+  operand: joi
     .string()
-    .valid(">=", "<=", "<", ">")
+    .valid('>=', '<=', '<', '>')
     .required(),
-  ...constRules
+  ...constRules,
 });
 
 const compareBaseline = joi.object().keys({
   dataItemPath: joi.string().required(),
   baseline: joi.number().required(),
   operand: joi
-  .string()
-  .valid(...whitelist)
-  .required(),
-  ...constRules
+    .string()
+    .valid(...whitelist)
+    .required(),
+  ...constRules,
 });
 
 const dependentRule = joi.object().keys({
-  ruleName: joi.string().required(), 
+  ruleName: joi.string().required(),
   operand: joi
-  .string()
-  .valid('&&','||')
-  .required(), 
+    .string()
+    .valid('&&', '||')
+    .required(),
   ruleNames: joi.array().items(joi.string()).min(2).required(),
-  isActive: joi.boolean().default(true)
+  isActive: joi.boolean().default(true),
 });
 
 module.exports = {
@@ -79,11 +79,11 @@ module.exports = {
     compareBaselineTolerance,
     compareBounds,
     compareTwo,
-    dependentRule
+    dependentRule,
   ],
   compareBaseline,
   compareBaselineTolerance,
   compareBounds,
   compareTwo,
-  dependentRule
+  dependentRule,
 };

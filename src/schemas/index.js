@@ -1,3 +1,3 @@
 module.exports = {
-  ruleItem: require("./ruleItem")
+  ruleItem: require('./ruleItem'),
 };
