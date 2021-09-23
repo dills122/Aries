@@ -1,6 +1,6 @@
-const lib = require("./src");
+const lib = require('./src');
 
 module.exports = {
-  lib: lib,
-  ...lib
+  lib,
+  ...lib,
 };

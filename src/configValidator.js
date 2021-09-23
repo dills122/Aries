@@ -1,9 +1,9 @@
-const joi = require("@hapi/joi");
-const { schemas } = require("./schemas/ruleItem");
-const _ = require("lodash");
+const joi = require('@hapi/joi');
+const _ = require('lodash');
+const { schemas } = require('./schemas/ruleItem');
 
 const schema = joi.object().keys({
-  config: joi.object().required()
+  config: joi.object().required(),
 });
 /**
  * @class Rule config validator
@@ -11,7 +11,7 @@ const schema = joi.object().keys({
  */
 class ConfigValidator {
   constructor(args = {}) {
-    let validatedSchema = joi.attempt(args, schema);
+    const validatedSchema = joi.attempt(args, schema);
     _.assign(this, validatedSchema);
   }
 
@@ -27,20 +27,21 @@ class ConfigValidator {
 
     return ConfigValidator.validate(this.config);
   }
+
   /**
    * Validate a rules config to ensure it has proper form
    * @param {object} config
    * @returns {Array<Object>}
    */
   static validate(config) {
-    let configItems = _.values(config);
+    const configItems = _.values(config);
 
-    let allConfigs = joi.array().items(...schemas);
+    const allConfigs = joi.array().items(...schemas);
 
-    let collection = joi.attempt(configItems, allConfigs);
+    const collection = joi.attempt(configItems, allConfigs);
 
     if (_.isArray(collection) && collection.length === 0) {
-      throw new Error("Empty rule collection, need to have rules to validate");
+      throw new Error('Empty rule collection, need to have rules to validate');
     }
 
     return collection;
@@ -48,5 +49,5 @@ class ConfigValidator {
 }
 
 module.exports = {
-  ConfigValidator
+  ConfigValidator,
 };
